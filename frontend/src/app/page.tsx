@@ -68,6 +68,15 @@ export default async function Home() {
     }
   }
 
+  const podiumPlayers = [
+      leaderboard[1],
+      leaderboard[0],
+      leaderboard[2],
+    ].filter(
+      (player): player is (typeof leaderboard)[number] =>
+        player !== undefined
+    );
+
   /* ----------------------------
      UI
   ---------------------------- */
@@ -110,6 +119,78 @@ export default async function Home() {
         <p style={{ opacity: 0.8, marginTop: "8px" }}>
           Live Fantasy Leaderboard (API Powered)
         </p>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            marginTop: "24px",
+            marginBottom: "32px",
+          }}
+        >
+          {podiumPlayers.map((player, index) => {
+            const podium = [2, 1, 3][index];
+
+            return (
+              <div
+                key={player.playerName}
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  backgroundColor:
+                    podium === 1
+                      ? "#3a2f00"
+                      : podium === 2
+                      ? "#2a2a2a"
+                      : "#2b1d00",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  border:
+                    podium === 1
+                      ? "2px solid gold"
+                      : "1px solid #444",
+                }}
+              >
+                <div style={{ fontSize: "2rem" }}>
+                  {podium === 1
+                    ? "🥇"
+                    : podium === 2
+                    ? "🥈"
+                    : "🥉"}
+                </div>
+
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    marginTop: "8px",
+                  }}
+                >
+                  {player.playerName}
+                </div>
+
+                <div
+                  style={{
+                    color: "gold",
+                    fontSize: "1.3rem",
+                    marginTop: "6px",
+                  }}
+                >
+                  {player.points}
+                </div>
+
+                <div
+                  style={{
+                    opacity: 0.7,
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  points
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
         <table
           style={{

@@ -26,7 +26,9 @@ export async function getWorldCupGames(): Promise<any[]> {
     const res = await fetch(
       "https://worldcup26.ir/get/games",
       {
-        cache: "no-store",
+        next: {
+          revalidate: 300,
+        },
       }
     );
 
@@ -95,7 +97,9 @@ export async function getWorldCupStandings(): Promise<any> {
     const res = await fetch(
       "https://worldcup26.ir/get/groups",
       {
-        cache: "no-store",
+        next: {
+          revalidate: 300,
+        },
       }
     );
 
