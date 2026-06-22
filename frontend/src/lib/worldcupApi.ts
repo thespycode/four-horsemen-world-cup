@@ -43,11 +43,7 @@ export async function getWorldCupGames(): Promise<any[]> {
 
     return data?.games ?? [];
   } catch (error) {
-    console.error(
-      "GAME FETCH FAILED:",
-      error
-    );
-
+    console.error("GAME FETCH FAILED:", error);
     return [];
   }
 }
@@ -74,16 +70,10 @@ export function mapApiGamesToMatches(
       game.away_team_name_en
     ),
 
-    homeScore: Number(
-      game.home_score ?? 0
-    ),
+    homeScore: Number(game.home_score ?? 0),
+    awayScore: Number(game.away_score ?? 0),
 
-    awayScore: Number(
-      game.away_score ?? 0
-    ),
-
-    completed:
-      game.finished === "TRUE",
+    completed: game.finished === "TRUE",
   }));
 }
 
@@ -103,18 +93,11 @@ export async function getWorldCupStandings(): Promise<any> {
       }
     );
 
-    console.log(
-      "Standings status:",
-      res.status
-    );
+    console.log("Standings status:", res.status);
 
     return await res.json();
   } catch (error) {
-    console.error(
-      "STANDINGS FETCH FAILED:",
-      error
-    );
-
+    console.error("STANDINGS FETCH FAILED:", error);
     return { groups: [] };
   }
 }
@@ -127,25 +110,20 @@ export function mapApiStandingsToStandings(
 ): Standing[] {
   const standings: Standing[] = [];
 
-  const groups =
-    apiData?.groups ?? [];
+  const groups = apiData?.groups ?? [];
 
   for (const group of groups) {
-    const groupName =
-      group?.name ?? "";
-
-    const teams =
-      group?.teams ?? [];
+    const groupName = group?.name ?? "";
+    const teams = group?.teams ?? [];
 
     for (const team of teams) {
-      const points = Number(
-        team?.pts ?? 0
-      );
+      const points = Number(team?.pts ?? 0);
 
       standings.push({
-        country: mapTeamIdToName(
-          team.team_id
-        ),
+        country:
+          team.team_name_en ??
+          team.team_name ??
+          `Team ${team.team_id}`,
 
         group: `Group ${groupName}`,
 
@@ -159,28 +137,4 @@ export function mapApiStandingsToStandings(
   }
 
   return standings;
-}
-
-/* --------------------------------
-   TEAM ID → NAME MAP
--------------------------------- */
-function mapTeamIdToName(
-  id: string
-): string {
-  const map: Record<string, string> = {
-    "1": "Mexico",
-    "2": "South Africa",
-    "3": "Korea Republic",
-    "4": "Czechia",
-    "5": "Canada",
-    "6": "Bosnia and Herzegovina",
-    "11": "Haiti",
-    "12": "Scotland",
-    "13": "USA",
-    "14": "Paraguay",
-    "15": "Australia",
-    "16": "Turkey",
-  };
-
-  return map[id] ?? `Team ${id}`;
 }

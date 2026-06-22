@@ -1,5 +1,6 @@
 import { players } from "@/data/players";
 import { countryStatuses } from "@/data/countrystatuses";
+import { getFlag } from "@/lib/flags";
 
 import {
   calculateCountryPoints,
@@ -124,9 +125,10 @@ export default async function Home() {
           style={{
             display: "flex",
             justifyContent: "center",
-            gap: "20px",
-            marginTop: "24px",
-            marginBottom: "32px",
+            alignItems: "flex-end",
+            gap: "16px",
+            marginTop: "28px",
+            marginBottom: "40px",
           }}
         >
           {podiumPlayers.map((player, index) => {
@@ -136,8 +138,14 @@ export default async function Home() {
               <div
                 key={player.playerName}
                 style={{
-                  flex: 1,
+                  flex: podium === 1 ? 1.2 : 1,
                   textAlign: "center",
+                  transform:
+                    podium === 1
+                      ? "translateY(-10px) scale(1.05)"
+                      : "scale(0.95)",
+                  transition: "all 0.2s ease",
+                  zIndex: podium === 1 ? 3 : podium === 2 ? 2 : 1,
                   backgroundColor:
                     podium === 1
                       ? "#3a2f00"
@@ -150,6 +158,10 @@ export default async function Home() {
                     podium === 1
                       ? "2px solid gold"
                       : "1px solid #444",
+                  boxShadow:
+                    podium === 1
+                      ? "0px 0px 20px rgba(255, 215, 0, 0.4)"
+                      : "none",
                 }}
               >
                 <div style={{ fontSize: "2rem" }}>
@@ -160,14 +172,18 @@ export default async function Home() {
                     : "🥉"}
                 </div>
 
-                <div
+                <a
+                  href={`/players/${player.playerName.toLowerCase()}`}
                   style={{
+                    color: "white",
+                    textDecoration: "none",
                     fontWeight: "bold",
                     marginTop: "8px",
+                    display: "block",
                   }}
                 >
                   {player.playerName}
-                </div>
+                </a>
 
                 <div
                   style={{
@@ -201,20 +217,55 @@ export default async function Home() {
         >
           <thead>
             <tr>
-              <th style={{ textAlign: "left", padding: "12px" }}>
+              <th style={{
+                textAlign: "left",
+                padding: "12px",
+                color: "gold",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontSize: "0.85rem",
+              }}>
                 Rank
               </th>
-              <th style={{ textAlign: "left", padding: "12px" }}>
+              <th style={{
+                textAlign: "center",
+                padding: "12px",
+                color: "gold",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontSize: "0.85rem",
+              }}>
                 Player
               </th>
-              <th style={{ textAlign: "left", padding: "12px" }}>
+              <th style={{
+                textAlign: "center",
+                padding: "12px",
+                color: "gold",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontSize: "0.85rem",
+              }}>
                 Points
               </th>
-              <th style={{ textAlign: "left", padding: "12px" }}>
+              <th style={{
+                textAlign: "center",
+                padding: "12px",
+                color: "gold",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontSize: "0.85rem",
+              }}>
                 Alive
               </th>
-              <th style={{ textAlign: "left", padding: "12px" }}>
-                Max Possible
+              <th style={{
+                textAlign: "center",
+                padding: "12px",
+                color: "gold",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontSize: "0.85rem",
+              }}>
+                Max
               </th>
             </tr>
           </thead>
@@ -223,6 +274,7 @@ export default async function Home() {
             {leaderboard.map((entry, index) => (
               <tr
                 key={entry.playerName}
+                className="leaderboard-row"
                 style={{
                   backgroundColor:
                     index === 0
@@ -234,15 +286,26 @@ export default async function Home() {
                       : index % 2 === 0
                       ? "#1a1a1a"
                       : "#181818",
+                  cursor: "pointer",
+                }}
+              >
+                <td
+                  style={{
+                    padding: "12px",
+                    textAlign: "center",
+                    width: "60px",
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
                   }}
                 >
-                <td style={{ padding: "12px" }}>
                   {ranks[index] === 1
                     ? "🥇"
                     : ranks[index] === 2
                     ? "🥈"
                     : ranks[index] === 3
                     ? "🥉"
+                    : ranks[index] === 4
+                    ? "L"
                     : ranks[index]}
                 </td>
 
@@ -257,9 +320,12 @@ export default async function Home() {
                     style={{
                       color: "white",
                       textDecoration: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
                     }}
                   >
-                    {entry.playerName}
+                    <span>{entry.playerName}</span>
                   </a>
                 </td>
 
@@ -268,17 +334,35 @@ export default async function Home() {
                     padding: "12px",
                     fontWeight: "bold",
                     fontSize: "1.2rem",
-                    color: "gold",
+                    textAlign: "center",
+
+                    color:
+                      index === 0
+                        ? "gold"
+                        : index === 1
+                        ? "#c0c0c0"
+                        : index === 2
+                        ? "#cd7f32"
+                        : "white",
+
+                    textShadow:
+                      index === 0
+                        ? "0 0 8px rgba(255,215,0,0.8)"
+                        : index === 1
+                        ? "0 0 6px rgba(192,192,192,0.7)"
+                        : index === 2
+                        ? "0 0 6px rgba(205,127,50,0.7)"
+                        : "none",
                   }}
                 >
                   {entry.points}
                 </td>
 
-                <td style={{ padding: "12px" }}>
+                <td style={{ padding: "12px", textAlign: "center" }}>
                   {entry.countriesAlive}
                 </td>
 
-                <td style={{ padding: "12px" }}>
+                <td style={{ padding: "12px", textAlign: "center" }}>
                   {entry.maxPossiblePoints}
                 </td>
               </tr>

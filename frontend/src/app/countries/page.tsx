@@ -1,6 +1,6 @@
+import { getFlag } from "@/lib/flags";
 import { countries } from "@/data/countries";
 import { players } from "@/data/players";
-
 import { getCountryOwner } from "@/lib/ownership";
 
 export default function CountriesPage() {
@@ -59,6 +59,8 @@ export default function CountriesPage() {
                 players
               );
 
+              console.log("COUNTRY:", country.name);
+
               return (
                 <tr
                   key={country.name}
@@ -70,7 +72,7 @@ export default function CountriesPage() {
                   }}
                 >
                   <td style={{ padding: "12px" }}>
-                    {country.name}
+                    {getFlag(country.name)} {country.name}
                   </td>
 
                   <td style={{ padding: "12px" }}>

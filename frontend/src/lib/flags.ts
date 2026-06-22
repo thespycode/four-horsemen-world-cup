@@ -15,6 +15,8 @@ export const countryFlags: Record<string, string> = {
   Scotland: "🏴",
 
   USA: "🇺🇸",
+  "United States": "🇺🇸",
+
   Paraguay: "🇵🇾",
   Australia: "🇦🇺",
   Turkey: "🇹🇷",
@@ -22,7 +24,8 @@ export const countryFlags: Record<string, string> = {
   Germany: "🇩🇪",
   Ecuador: "🇪🇨",
   "Côte d’Ivoire": "🇨🇮",
-  "Congo DR": "🇨🇩",
+  Curacao: "🇨🇼",
+  "Curaçao": "🇨🇼",
 
   Netherlands: "🇳🇱",
   Japan: "🇯🇵",
@@ -53,7 +56,11 @@ export const countryFlags: Record<string, string> = {
   Colombia: "🇨🇴",
   Uzbekistan: "🇺🇿",
 
-  England: "🏴",
+  "Congo DR": "🇨🇩",
+  "DR Congo": "🇨🇩",
+  "Democratic Republic of the Congo": "🇨🇩",
+
+  England: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
   Croatia: "🇭🇷",
   Ghana: "🇬🇭",
   Panama: "🇵🇦",

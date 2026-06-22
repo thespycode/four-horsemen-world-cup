@@ -13,6 +13,8 @@ import {
   getMaxPossiblePoints,
 } from "@/lib/playerStats";
 
+import { getFlag } from "@/lib/flags";
+
 type Props = {
   params: Promise<{
     playerName: string;
@@ -123,7 +125,7 @@ export default async function PlayerPage({
         <ul>
           {player.countries.map((country) => (
             <li key={country}>
-              {country}
+              {getFlag(country)} {country}
             </li>
           ))}
         </ul>
