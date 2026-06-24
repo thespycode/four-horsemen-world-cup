@@ -1,6 +1,10 @@
 import { players } from "@/data/players";
-import { matches } from "@/data/matches";
-import { standings } from "@/data/standings";
+import {
+  getWorldCupGames,
+  mapApiGamesToMatches,
+  getWorldCupStandings,
+  mapApiStandingsToStandings,
+} from "@/lib/worldcupApi";
 import { countryStatuses } from "@/data/countrystatuses";
 
 import {
@@ -32,15 +36,28 @@ export default async function PlayerPage({
       playerName.toLowerCase()
   );
 
-  const countryPoints = calculateCountryPoints(
-    matches,
-    standings
-  );
+  const games = await getWorldCupGames();
+  const matches = mapApiGamesToMatches(games);
 
-  const playerPoints = calculatePlayerPoints(
-    players,
-    countryPoints
-  );
+  const standingsData =
+    await getWorldCupStandings();
+
+  const standings =
+    mapApiStandingsToStandings(
+      standingsData
+    );
+
+  const countryPoints =
+    calculateCountryPoints(
+      matches,
+      standings
+    );
+
+  const playerPoints =
+    calculatePlayerPoints(
+      players,
+      countryPoints
+    );
 
   if (!player) {
     return (
